@@ -11,15 +11,15 @@ import scapy.sendrecv
 #    a graph showing the network traffic/use.
      
 
-DEBUG_MODE = 1
+DEBUG_MODE = 0
 ###
 packets_captured = 0
 captured_packets = dict()
 ###
-link_layer_protocol = dict()
-network_layer_protocol = dict()
-transport_layer_protocol = dict()
-application_layer_protocol = dict()
+# link_layer_protocol = dict()
+# network_layer_protocol = dict()
+# transport_layer_protocol = dict()
+# application_layer_protocol = dict()
 sending_ip_address = dict()
 receiving_ip_address = dict()
 flags = dict()
@@ -31,7 +31,8 @@ def packet_callback(captured_packet):
         captured_packets[packets_captured] = captured_packet
         packets_captured += 1
     else:
-        print(captured_packet.summary())
+        print(captured_packet.lastlayer())
+        
 
 
 
@@ -39,31 +40,18 @@ def execute_packet_capture():
     capture_time = input("--enter the number of seconds for capture duration--\r\n")
     print("--beginning capture--\r\n")
 
-    packet_capture = sniff(timeout=int(capture_time), prn=lambda packets:packet_callback(packets))
+    packet_capture = sniff(timeout=int(capture_time), prn=lambda packet:packet_callback(packet))
     
     print("--capture ended--\r\n")
 
 
 def analyze_packets(packet_capture):
-    # is_not_none = True
-    # marker = 0
-
     for marker in packet_capture.keys:
-            packet_summary = packet_capture[marker].summary()
-            split_capture = str.split(packet_summary, '>')
-            split_protocols_sender = split_capture[0]
-            split_receiver_port_flags = split_capture[1]
-
-            # link_layer_protocol[marker] = 
-
-    # while is_not_none:
-    #     if not packet_capture[marker] == None: 
-    #         packet_summary = packet_capture[marker].summary()
-    #         split_capture = str.split(packet_summary, ':')
-    #         link_layer_protocol[]
-    #     else:
-    #         is_not_none = False
-    #     marker+=1
+            packet_summary_truncated = packet_capture[marker].summary()
+            split_capture = str.split(packet_summary_truncated, ' ')
+            if split_capture[0] == "TCP":
+                 
+            
 
 
 if __name__ == '__main__':
