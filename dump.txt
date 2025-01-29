@@ -1,0 +1,18 @@
+def find_common_strings(pcap):
+    seen_terms = set()
+    try:
+        for term in pcap:
+            if not (term is None):
+                seen_terms.add(term)
+    except TypeError:
+        pass
+    return seen_terms
+
+
+
+
+
+def packet_callback(packets):
+    lexicon = find_common_strings(packets.summary())
+    for term in lexicon:
+        print(term + "\r\n")
